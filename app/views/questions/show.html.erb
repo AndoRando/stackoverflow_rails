@@ -21,9 +21,32 @@
     </div>
     <% if current_user == @question.user %>
       <div class="panel-footer">
-        <%= link_to "Edit", edit_question_path(@question), class: 'btn btn-default' %>
-        <%= link_to "Delete", question_path(@question), class: 'btn btn-danger' , data: {confirm: "Are you sure?", method: "delete"} %>
+        <%= link_to "Edit Question", edit_question_path(@question), class: 'btn btn-default' %>
+        <%= link_to "Delete Question", question_path(@question), class: 'btn btn-danger' , data: {confirm: "Are you sure?", method: "delete"} %>
       </div>
     <% end %>
   </div>
+
+  <%= link_to "Answer this question", new_question_answer_path(@question), class: "btn-default btn" %>
+  <div class="col-md-offset-1">
+      <br>
+      <h2>Answers</h2>
+  </div>
+  <% @question.answers.each do |answer| %>
+    <div class="panel panel-default col-md-offset-1">
+      <div class="panel-body">
+        <%= answer.body %>
+      </div>
+      <% if current_user == @question.user %>
+        <div class="panel-footer">
+          <%= link_to "Edit Answer", edit_question_answer_path(@question, answer), class: 'btn btn-default' %>
+          <%= link_to "Delete Answer", question_answer_path(@question, answer), class: 'btn btn-danger' , data: {confirm: "Are you sure?", method: "delete"} %>
+          <span class="float-right">
+            answered <%= time_ago_in_words(answer.created_at) %> ago ~  <%= link_to answer.user.name, user_path(answer.user) %>
+          </span>
+        </div>
+      <% end %>
+
+    </div>
+  <% end %>
 </div>
