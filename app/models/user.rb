@@ -6,7 +6,6 @@ class User < ActiveRecord::Base
   validates_presence_of :name, :email
   before_save :encrypt_password
 
-  # has_many :answers
 
   def encrypt_password
     self.password_salt = BCrypt::Engine.generate_salt

@@ -37,15 +37,15 @@
       <div class="panel-body">
         <%= answer.body %>
       </div>
-      <% if current_user == @question.user %>
         <div class="panel-footer">
-          <%= link_to "Edit Answer", edit_question_answer_path(@question, answer), class: 'btn btn-default' %>
-          <%= link_to "Delete Answer", question_answer_path(@question, answer), class: 'btn btn-danger' , data: {confirm: "Are you sure?", method: "delete"} %>
+          <% if current_user == answer.user %>
+              <%= link_to "Edit Answer", edit_question_answer_path(@question, answer), class: 'btn btn-default' %>
+              <%= link_to "Delete Answer", question_answer_path(@question, answer), class: 'btn btn-danger' , data: {confirm: "Are you sure?", method: "delete"} %>
+          <% end %>
           <span class="float-right">
             answered <%= time_ago_in_words(answer.created_at) %> ago ~  <%= link_to answer.user.name, user_path(answer.user) %>
           </span>
         </div>
-      <% end %>
 
     </div>
   <% end %>
