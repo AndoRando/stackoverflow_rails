@@ -15,9 +15,12 @@
       <div>
         <ul class="nav navbar-nav">
           <li class="active"><a href="/">Home</a></li>
-          <li><a href="/users/new">Sign Up</a></li>
-          <li><a href="/log-in">Log In</a></li>
-          <li><a href="/log-out">Log Out</a></li>
+          <% if user_signed_in? %>
+            <li><a href="/log-out">Log Out</a></li>
+          <% else %>
+            <li><a href="/users/new">Sign Up</a></li>
+            <li><a href="/log-in">Log In</a></li>
+          <% end %>
         </ul>
       </div>
     </div>
