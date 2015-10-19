@@ -17,6 +17,7 @@
           <li class="active"><a href="/">Home</a></li>
           <% if user_signed_in? %>
             <li><a href="/log-out">Log Out</a></li>
+            <li><%= link_to "Ask Question", new_question_path %></li>
           <% else %>
             <li><a href="/users/new">Sign Up</a></li>
             <li><a href="/log-in">Log In</a></li>
@@ -27,6 +28,11 @@
   </nav>
 
 <div class="container">
+
+  <% flash.each do |key, value| %>
+   <div class="alert alert-<%= key %>"><%= value %></div>
+ <% end %>
+ 
   <%= yield %>
 </div>
 

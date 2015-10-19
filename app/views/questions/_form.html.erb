@@ -1,0 +1,15 @@
+<%= form_for @question do |f| %>
+  <div class="col-md-12 row">
+    <div class="form-group col-md-6 row ">
+      <%= f.label :title %>
+      <%= f.text_field :title, class: "form-control" %>
+    </div>
+  </div>
+  <div class="col-md-12 row">
+    <div class="form-group col-md-8 row ">
+      <%= f.label :body %>
+      <%= f.text_area :body, class: "form-control", rows: "6" %>
+    </div>
+  </div>
+  <%= f.submit "Ask Question", class: "btn btn-default" %>
+<% end %>
