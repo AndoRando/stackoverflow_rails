@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   has_many :questions
   has_many :answers
+  has_many :votes
+  has_many :questions, through: :votes, as: :votable
   attr_accessor :password
   validates_confirmation_of :password
   validates_presence_of :name, :email

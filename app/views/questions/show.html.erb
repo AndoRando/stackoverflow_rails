@@ -1,16 +1,24 @@
 <div class="col-md-12">
-  <div class="cold-md-6">
-    <h2>
-      <%= @question.title %>
-    </h2>
-    <p>
-      asked <%= time_ago_in_words(@question.created_at) %> ago <%= link_to @question.user.name, user_path(@question.user) %>
-    </p>
-  </div>
+  <h2>
+    <%= @question.title %>
+  </h2>
+  <p>
+    asked <%= time_ago_in_words(@question.created_at) %> ago <%= link_to @question.user.name, user_path(@question.user) %>
+  </p>
 </div>
 
 <div class="col-md-12">
-  <div class="cold-md-6 panel panel-default">
+  <div class="col-md-1">
+    <button type="button" class="btn btn-default" aria-label="Upvote">
+      <%= link_to "", new_question_vote_path(@question), class: "glyphicon glyphicon-chevron-up" %>
+    </button>
+    <br>
+    <button type="button" class="btn btn-default" aria-label="Upvote">
+      <%= link_to "", new_vote_path, class: "glyphicon glyphicon-chevron-down" %>
+    </button>
+  </div>
+
+  <div class="col-md-11 panel panel-default">
     <div class="panel-heading">
       <%= @question.created_at %>
     </div>
@@ -26,27 +34,40 @@
       </div>
     <% end %>
   </div>
+</div>
 
+<div class="col-md-12">
   <%= link_to "Answer this question", new_question_answer_path(@question), class: "btn-default btn" %>
-  <div class="col-md-offset-1">
-      <br>
-      <h2>Answers</h2>
-  </div>
+</div>
+
+<div class="col-md-12">
+  <h2>Answers</h2>
+</div>
+
+<div class="col-md-12">
   <% @question.answers.each do |answer| %>
-    <div class="panel panel-default col-md-offset-1">
+    <div class="col-md-1">
+      <button type="button" class="btn btn-default" aria-label="Upvote">
+        <%= link_to "", new_answer_vote_path(answer), class: "glyphicon glyphicon-chevron-up" %>
+      </button>
+      <br>
+      <button type="button" class="btn btn-default" aria-label="Upvote">
+        <%= link_to "", new_vote_path, class: "glyphicon glyphicon-chevron-down" %>
+      </button>
+    </div>
+    <div class="panel panel-default col-md-11">
       <div class="panel-body">
         <%= answer.body %>
       </div>
-        <div class="panel-footer">
-          <% if current_user == answer.user %>
-              <%= link_to "Edit Answer", edit_question_answer_path(@question, answer), class: 'btn btn-default' %>
-              <%= link_to "Delete Answer", question_answer_path(@question, answer), class: 'btn btn-danger' , data: {confirm: "Are you sure?", method: "delete"} %>
-          <% end %>
-          <span class="float-right">
-            answered <%= time_ago_in_words(answer.created_at) %> ago ~  <%= link_to answer.user.name, user_path(answer.user) %>
-          </span>
-        </div>
-
+      <div class="panel-footer">
+        <% if current_user == answer.user %>
+            <%= link_to "Edit Answer", edit_question_answer_path(@question, answer), class: 'btn btn-default' %>
+            <%= link_to "Delete Answer", question_answer_path(@question, answer), class: 'btn btn-danger' , data: {confirm: "Are you sure?", method: "delete"} %>
+        <% end %>
+        <span class="float-right">
+          answered <%= time_ago_in_words(answer.created_at) %> ago ~  <%= link_to answer.user.name, user_path(answer.user) %>
+        </span>
+      </div>
     </div>
   <% end %>
 </div>

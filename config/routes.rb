@@ -3,9 +3,16 @@ Rails.application.routes.draw do
 
   resources :questions do
     resources :answers
+    resources :votes
+  end
+
+  resources :answers do
+    resources :votes
   end
   
+  resources :votes
   resources :users
+
 
   get "/log-in" => "sessions#new"
   post "/log-in" => "sessions#create"
