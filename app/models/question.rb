@@ -1,6 +1,6 @@
 class Question < ActiveRecord::Base
   belongs_to :user
-  has_many :answers
+  has_many :answers, dependent: :destroy
   has_many :users, through: :votes, as: :votable
   has_many :votes, as: :votable
 

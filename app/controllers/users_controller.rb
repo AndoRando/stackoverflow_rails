@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     params[:user] ||= @user.as_json
-    if params[:is_admin?] == true
+    if params[:is_admin?]
       params[:user][:is_admin?] = true
     end
     if @user.update(user_params)
