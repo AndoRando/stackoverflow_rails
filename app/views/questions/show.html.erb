@@ -8,18 +8,34 @@
 </div>
 
 <div class="col-md-12">
+  <div class="col-md-1 panel-default">
+    <div class="panel-body text-center">
+      <p class="lead">
+        <%= @question.points %>
+      </p>
+      votes
+    </div>
+  </div>
   <div class="col-md-1">
     <button type="button" class="btn btn-default" aria-label="Upvote">
-      <%= link_to "", new_question_vote_path(@question), class: "glyphicon glyphicon-chevron-up" %>
+      <% if current_user.voted?(@question) %>
+        <%= link_to "", vote_path(current_user.find_vote(@question)), class: "glyphicon glyphicon-chevron-up", data: {method: "delete"}%>
+      <% else %>
+        <%= link_to "", new_question_vote_path(@question, value: 1), class: "glyphicon glyphicon-chevron-up" %>
+      <% end %>
     </button>
     <br>
     <button type="button" class="btn btn-default" aria-label="Upvote">
-      <%= link_to "", new_vote_path, class: "glyphicon glyphicon-chevron-down" %>
+      <% if current_user.voted?(@question) %>
+        <%= link_to "", vote_path(current_user.find_vote(@question)), class: "glyphicon glyphicon-chevron-down", data: {method: "delete"}%>
+      <% else %>
+        <%= link_to "", new_question_vote_path(@question, value: -1), class: "glyphicon glyphicon-chevron-down" %>
+      <% end %>
     </button>
-    <br>
+      <br>
   </div>
 
-  <div class="col-md-11 panel panel-default">
+  <div class="col-md-10 panel panel-default">
     <div class="panel-heading">
       <%= @question.created_at %>
     </div>
@@ -37,6 +53,8 @@
   </div>
 </div>
 
+<% if user_signed_in? %>
+
 <div class="col-md-12">
   <%= link_to "Answer this question", new_question_answer_path(@question), class: "btn-default btn" %>
 </div>
@@ -46,17 +64,34 @@
 </div>
 
 <div class="col-md-12">
-  <% @question.answers.each do |answer| %>
-    <div class="col-md-1">
-      <button type="button" class="btn btn-default" aria-label="Upvote">
-        <%= link_to "", new_answer_vote_path(answer), class: "glyphicon glyphicon-chevron-up" %>
-      </button>
-      <br>
-      <button type="button" class="btn btn-default" aria-label="Upvote">
-        <%= link_to "", new_vote_path, class: "glyphicon glyphicon-chevron-down" %>
-      </button>
+  <% @answers.each do |answer| %>
+  <div class="col-md-1 panel-default">
+    <div class="panel-body text-center">
+      <p class="lead">
+        <%= answer.points %>
+      </p>
+      votes
     </div>
-    <div class="panel panel-default col-md-11">
+  </div>
+  <div class="col-md-1">
+    <button type="button" class="btn btn-default" aria-label="Upvote">
+      <% if current_user.voted?(answer) %>
+        <%= link_to "", vote_path(current_user.find_vote(answer)), class: "glyphicon glyphicon-chevron-up", data: {method: "delete"}%>
+      <% else %>
+        <%= link_to "", new_answer_vote_path(answer, value: 1), class: "glyphicon glyphicon-chevron-up" %>
+      <% end %>
+    </button>
+    <br>
+    <button type="button" class="btn btn-default" aria-label="Upvote">
+      <% if current_user.voted?(answer) %>
+        <%= link_to "", vote_path(current_user.find_vote(answer)), class: "glyphicon glyphicon-chevron-down", data: {method: "delete"}%>
+      <% else %>
+        <%= link_to "", new_answer_vote_path(answer, value: -1), class: "glyphicon glyphicon-chevron-down" %>
+      <% end %>
+    </button>
+      <br>
+  </div>
+    <div class="panel panel-default col-md-10">
       <div class="panel-body">
         <%= answer.body %>
       </div>
@@ -72,3 +107,13 @@
     </div>
   <% end %>
 </div>
+
+<% else %>
+
+<div class="col-md-12">
+  <p>
+    You must be signed in to see responses.
+  </p>
+</div>
+
+<% end %>

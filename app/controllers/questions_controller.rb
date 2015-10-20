@@ -22,6 +22,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @answers = @question.answers.sort_by { |answer| answer.points }.reverse
   end
 
   def edit

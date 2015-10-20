@@ -6,7 +6,8 @@ class VotesController < ApplicationController
       @vote = Vote.new
       @vote.votable = @votable
       @vote.user = current_user
-      binding.pry
+      @vote.value = params[:value]
+      # binding.pry
       @vote.save
     else
       flash[:danger] = "Sign in bro"
@@ -18,7 +19,9 @@ class VotesController < ApplicationController
   end
 
   def destroy
-
+    @vote = Vote.find(params[:id])
+    @vote.destroy
+    redirect_to :back
   end
 
 private

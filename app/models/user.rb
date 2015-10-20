@@ -22,4 +22,21 @@ class User < ActiveRecord::Base
       nil
     end
   end
+
+  def voted?(votable)
+    votable.votes.each do |vote|
+      if vote.user_id == self.id
+        return true
+      end
+    end
+    false
+  end
+
+  def find_vote(votable)
+    votable.votes.each do |vote|
+      if vote.user_id == self.id
+        return vote
+      end
+    end
+  end
 end
