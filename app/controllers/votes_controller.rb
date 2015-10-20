@@ -2,9 +2,15 @@ class VotesController < ApplicationController
   before_action :set_votable
 
   def new
-    @vote = @votable.votes.new
-    @vote.user = current_user
-    @vote.save
+    if user_signed_in?
+      @vote = Vote.new
+      @vote.votable = @votable
+      @vote.user = current_user
+      binding.pry
+      @vote.save
+    else
+      flash[:danger] = "Sign in bro"
+    end
     redirect_to :back
   end
 
