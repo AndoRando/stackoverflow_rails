@@ -1,17 +1,23 @@
 class User < ActiveRecord::Base
-  has_many :questions
-  has_many :answers
-  has_many :votes
   has_many :questions, through: :votes, as: :votable
+  has_many :questions, dependent: :destroy
+  has_many :answers, dependent: :destroy
+  has_many :votes, dependent: :destroy
   attr_accessor :password
+  before_save :encrypt_password
   validates_confirmation_of :password
   validates_presence_of :name, :email
-  before_save :encrypt_password
 
 
   def encrypt_password
-    self.password_salt = BCrypt::Engine.generate_salt
-    self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
+    if password != nil
+      self.password_salt = BCrypt::Engine.generate_salt
+      self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
+    elsif self.password_salt != nil
+      self.password_salt = self.password_salt
+      self.password_hash = self.password_hash
+      password = "password"
+    end
   end
 
   def self.authenticate(email, password)
@@ -38,5 +44,9 @@ class User < ActiveRecord::Base
         return vote
       end
     end
+  end
+
+  def make_admin
+    self.update(is_admin?: true)
   end
 end

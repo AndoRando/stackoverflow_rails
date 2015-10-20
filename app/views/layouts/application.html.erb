@@ -18,6 +18,9 @@
           <% if user_signed_in? %>
             <li><a href="/log-out">Log Out</a></li>
             <li><%= link_to "Ask Question", new_question_path %></li>
+            <% if current_user.is_admin? %>
+              <li><a href="/admin/users">Admin Panel</a></li>
+            <% end %>
           <% else %>
             <li><a href="/users/new">Sign Up</a></li>
             <li><a href="/log-in">Log In</a></li>

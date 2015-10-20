@@ -9,10 +9,16 @@ Rails.application.routes.draw do
   resources :answers do
     resources :votes
   end
-  
+
   resources :votes
   resources :users
 
+  namespace :admin, :only => [:index] do
+    resources :users
+    resources :questions
+    resources :answers
+    resources :votes
+  end
 
   get "/log-in" => "sessions#new"
   post "/log-in" => "sessions#create"

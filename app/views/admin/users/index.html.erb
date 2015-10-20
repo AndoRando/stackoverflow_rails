@@ -1,0 +1,17 @@
+<h1>Admin Stuff</h1>
+
+<div class="col-md-12">
+  <h2>Daily Stats:</h2>
+    <ul>
+      <li>Total Questions: <%= @today_questions.length %></li>
+      <li>Total Answers: <%= @today_answers.length %></li>
+      <li>Total Votes: <%= @today_votes.length %></li>
+    </ul>
+
+  <h2>Users:</h2>
+    <ul>
+      <% @users.each do |user| %>
+        <li><%= link_to user.name, user_path(user) %> - <%= link_to "Delete User", user_path(user), data: {method: 'delete'} %></li>
+      <% end %>
+    </ul>
+</div>
